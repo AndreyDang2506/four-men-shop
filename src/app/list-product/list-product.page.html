@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Product</ion-title>
+    <!-- <ion-buttons slot="primary">
+      <ion-button color="success" [routerLink]="['/cart']">
+        <ion-icon size="large" slot="end" name="cart"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <app-product
+      *ngFor="let product of products"
+      [product]="product"
+    ></app-product>
+  </ion-list>
+</ion-content>
+<ion-footer translucent="true" class="ion-no-border" mode="md">
+  <ion-toolbar color="translucent">
+    <ion-button
+      expand="block"
+      class="main-button"
+      routerLink="/checkout"
+      routerDirection="forward"
+      >Thanh toán</ion-button
+    >
+  </ion-toolbar>
+</ion-footer>
