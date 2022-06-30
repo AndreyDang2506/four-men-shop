@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CartItem } from 'src/app/api/interface';
 import { StorageService } from 'src/app/services/storage.service';
 import { Product } from '../../api/product.service';
 
@@ -17,7 +18,11 @@ export class ProductComponent implements OnInit {
   async addToCart(product: Product) {
     console.log('addToCart')
     console.log(product)
-    const productJson = JSON.stringify(product);
-    await this.storage.set('cart', productJson);
+    const cartItem: CartItem = {
+      quantity: 1,
+      productObj: product,
+      colorId: 1
+    }
+    await this.storage.addCartItem(cartItem);
   }
 }

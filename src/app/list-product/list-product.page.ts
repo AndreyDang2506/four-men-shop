@@ -29,7 +29,8 @@ export class ListProductPage implements OnInit {
   // }
   async clickedCart() {
     console.log('da click');
-    const name = await this.storage.get('name');
-    console.log('load ra'+ name)
+    const name = await this.storage.getCart()
+    console.log('load ra')
+    console.log( name)
   }
 }

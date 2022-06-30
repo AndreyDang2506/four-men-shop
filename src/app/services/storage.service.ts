@@ -20,20 +20,23 @@ export class StorageService {
 
   // Create and expose methods that users of this service can
   // call, for example:
-  public set(key: string, value: any) {
-    this._storage?.set(key, value);
+  private async set(key: string, value: any) {
+    console.log('value=========')
+    console.log(value)
+    const jsonValue = JSON.stringify(value);
+    await this._storage?.set(key, jsonValue);
   }
 
-  public get(key: string) {
-    return this._storage?.get(key);
-  }
-
-  public async getCart(): Promise<Cart|null> {
-    const cartJson = await this._storage?.get(STORAGE_CART);
-    if(cartJson) {
-      return JSON.parse(cartJson);
+  private async get(key: string) {
+    const valueJson = await this._storage?.get(key);
+    if(valueJson) {
+      return JSON.parse(valueJson);
     }
     return null;
+  }
+
+  public getCart(): Promise<Cart|null> {
+    return this.get(STORAGE_CART);
   }
 
   public async addCartItem(cartItem: CartItem) {
@@ -47,6 +50,13 @@ export class StorageService {
     } else {
       currentCartObj.data.set(cartItem.productObj.id, cartItem);
     }
+
+    return this.set(STORAGE_CART, currentCartObj);
+  }
+
+  public async removeCartItem(productId: number): Promise<void> {
+    let currentCartObj = await this.getCart();
+    currentCartObj.data.delete(productId);
     return this.set(STORAGE_CART, currentCartObj);
   }
 }
