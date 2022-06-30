@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseListResponse } from '../api/interface';
 import { Product, ProductService } from '../api/product.service';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-list-product',
@@ -10,7 +11,7 @@ import { Product, ProductService } from '../api/product.service';
 export class ListProductPage implements OnInit {
   products: Product[];
 
-  constructor(private data: ProductService) {}
+  constructor(private data: ProductService, private storage: StorageService) {}
 
   ngOnInit() {}
 
@@ -26,7 +27,9 @@ export class ListProductPage implements OnInit {
   // getProducts(): Promise<Product[]> {
   //   return this.data.getProducts();
   // }
-  clickedCart() {
+  async clickedCart() {
     console.log('da click');
+    const name = await this.storage.get('name');
+    console.log('load ra'+ name)
   }
 }
