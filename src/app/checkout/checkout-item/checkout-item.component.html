@@ -1,0 +1,67 @@
+<div *ngIf="cartItem">
+  <ion-card mode="ios">
+    <ion-card-content>
+      <div class="item-img">
+        <img [src]="cartItem.productObj.image" />
+        <img
+          *ngIf="!cartItem.productObj.image"
+          src="../../../assets/default.jpg"
+        />
+      </div>
+
+      <div class="item-info">
+        <p>{{ cartItem.productObj.productName }}</p>
+        <span>{{ cartItem.productObj.price | currency: "VND" }}</span>
+        <!-- Color -->
+        <ion-item *ngIf="cartItem.productObj.colors.length > 0">
+          <ion-label position="stacked">Màu sắc</ion-label>
+          <ion-select
+            placeholder="Chọn màu sắc"
+            (ionChange)="handleChangeColor($event)"
+            [value]="color"
+          >
+            <ion-select-option
+              *ngFor="let colorItem of cartItem.productObj.colors"
+              [value]="colorItem.name"
+              >{{ colorItem.name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+        <!-- End Color -->
+
+        <!-- Size -->
+        <ion-item *ngIf="cartItem.productObj.sizes.length > 0">
+          <ion-label position="stacked">Size</ion-label>
+          <ion-select
+            placeholder="Chọn size"
+            (ionChange)="handleChangeSize($event)"
+            [value]="size"
+          >
+            <ion-select-option
+              *ngFor="let sizeItem of cartItem.productObj.sizes"
+              [value]="sizeItem.name"
+              >{{ sizeItem.name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+        <!-- End Size -->
+
+        <div class="qty-selector">
+          <ion-icon
+            name="remove-circle-outline"
+            size="large"
+            (click)="decreaseQuantity()"
+          ></ion-icon>
+          <ion-badge class="quantity" color="success" size="large"
+            >{{ quantity }}
+          </ion-badge>
+          <ion-icon
+            name="add-circle-outline"
+            size="large"
+            (click)="increaseQuantity()"
+          ></ion-icon>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>

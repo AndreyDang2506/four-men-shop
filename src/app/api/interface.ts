@@ -1,4 +1,4 @@
-import { Product } from "./product.service";
+import { Product } from './product.service';
 
 export interface BaseListResponse<T> {
   data: T[];
@@ -7,11 +7,18 @@ export interface BaseListResponse<T> {
 }
 
 export interface Cart {
-  data: Map<number, CartItem>
+  fullName: string;
+  data: CartItem[];
+  address: string;
+  height: number;
+  weight: number;
+  phone: string;
 }
 
 export interface CartItem {
   productObj: Product;
-  quantity: number;
-  colorId: number;
+  quantity?: number;
+  color?: string;
+  size?: string;
+  productName?: string;
 }

@@ -7,14 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { CheckoutPageRoutingModule } from './checkout-routing.module';
 
 import { CheckoutPage } from './checkout.page';
+import { StorageService } from '../services/storage.service';
+import { CheckoutItemComponentModule } from './checkout-item/checkout-item.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CheckoutPageRoutingModule
+    CheckoutPageRoutingModule,
+    CheckoutItemComponentModule,
   ],
-  declarations: [CheckoutPage]
+  declarations: [CheckoutPage],
+  providers: [StorageService],
 })
 export class CheckoutPageModule {}

@@ -1,21 +1,15 @@
-<ion-item *ngIf="product">
+<div *ngIf="product">
   <ion-card mode="ios">
     <img [src]="product.image" />
-    <img *ngIf="!product.image"  src="../../../assets/default.jpg" />
+    <img *ngIf="!product.image" src="../../../assets/default.jpg" />
     <ion-card-header>
-      <ion-card-subtitle class="price"
-        >Price: {{ product.price | currency: "VND" }}</ion-card-subtitle
-      >
-      <ion-card-title>{{ product.productName }}</ion-card-title>
+      <p class="product-name">
+        {{ product.productName }}
+      </p>
+      <span class="price">Price: {{ product.price | currency: "VND" }}</span>
+      <div (click)="addToCart(product)" class="add-to-cart-btn" color="success">
+        Thêm vào Giỏ
+      </div>
     </ion-card-header>
-
-    <ion-card-content>
-      <ion-button fill="clear" (click)="addToCart(product)" class="add-to-cart-btn" color="success"
-      >
-      <ion-icon size="large" name="bag-add-outline"></ion-icon>
-
-    </ion-button
-    >
-    </ion-card-content>
   </ion-card>
-</ion-item>
+</div>

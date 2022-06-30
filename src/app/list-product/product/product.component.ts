@@ -16,13 +16,12 @@ export class ProductComponent implements OnInit {
   ngOnInit() {}
 
   async addToCart(product: Product) {
-    console.log('addToCart')
-    console.log(product)
+    console.log('addToCart');
+    console.log(product);
     const cartItem: CartItem = {
       quantity: 1,
       productObj: product,
-      colorId: 1
-    }
+    };
     await this.storage.addCartItem(cartItem);
   }
 }

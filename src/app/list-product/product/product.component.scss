@@ -1,7 +1,19 @@
 .add-to-cart-btn{
-    height: -webkit-fill-available;
+    margin-top: 1em;
+    padding: 1em 0;
+    display: block;
+    background-color: #2dd370;
+    text-align: center;
+    font-weight: bold;
+    color: #000;
 }
 
 .price {
+    font-weight: bold;
     color: rgb(255, 58, 58);
+}
+
+.product-name {
+    font-weight: bold;
+    color: #000;
 }

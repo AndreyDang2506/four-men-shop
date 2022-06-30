@@ -1,21 +1,26 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Product</ion-title>
-    <!-- <ion-buttons slot="primary">
-      <ion-button color="success" [routerLink]="['/cart']">
+    <ion-buttons slot="primary">
+      <ion-button
+        *ngIf="isShowCart"
+        color="success"
+        [routerLink]="['/checkout']"
+      >
         <ion-icon size="large" slot="end" name="cart"></ion-icon>
       </ion-button>
-    </ion-buttons> -->
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <app-product
-      *ngFor="let product of products"
-      [product]="product"
-    ></app-product>
-  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let product of products">
+        <app-product [product]="product"></app-product>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 <ion-footer translucent="true" class="ion-no-border" mode="md">
   <ion-toolbar color="translucent">

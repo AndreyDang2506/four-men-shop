@@ -6,7 +6,7 @@ import { STORAGE_CART } from '../constants/cart.constant';
 
 @Injectable()
 export class StorageService {
-  private _storage: Storage | null = null;
+  private localStorage: Storage | null = null;
 
   constructor(private storage: Storage) {
     this.init();
@@ -15,48 +15,56 @@ export class StorageService {
   async init() {
     // If using, define drivers here: await this.storage.defineDriver(/*...*/);
     const storage = await this.storage.create();
-    this._storage = storage;
+    this.localStorage = storage;
   }
 
-  // Create and expose methods that users of this service can
-  // call, for example:
-  private async set(key: string, value: any) {
-    console.log('value=========')
-    console.log(value)
-    const jsonValue = JSON.stringify(value);
-    await this._storage?.set(key, jsonValue);
-  }
-
-  private async get(key: string) {
-    const valueJson = await this._storage?.get(key);
-    if(valueJson) {
-      return JSON.parse(valueJson);
+  public async getCart(): Promise<any> {
+    const cart = await this.get(STORAGE_CART);
+    if (cart == null) {
+      return {
+        fullName: 'Nguyen Huu Ta',
+        data: new Array<CartItem>(),
+        address: '141 Chua Boc, Linh Nam, Hoang Mai, Ha Noi',
+        height: 165,
+        weight: 65,
+        phone: '0989912762',
+      };
     }
-    return null;
-  }
-
-  public getCart(): Promise<Cart|null> {
-    return this.get(STORAGE_CART);
+    return cart;
   }
 
   public async addCartItem(cartItem: CartItem) {
-    let currentCartObj = await this.getCart();
-    if(currentCartObj == null) {
-      let data = new Map<number, CartItem>();
-      data.set(cartItem.productObj.id, cartItem)
-      currentCartObj = {
-        data
-      }
-    } else {
-      currentCartObj.data.set(cartItem.productObj.id, cartItem);
-    }
+    const currentCartObj = await this.getCart();
+    currentCartObj.data.push(cartItem);
 
     return this.set(STORAGE_CART, currentCartObj);
   }
 
-  public async removeCartItem(productId: number): Promise<void> {
-    let currentCartObj = await this.getCart();
-    currentCartObj.data.delete(productId);
+  public async removeCartItem(index: number): Promise<void> {
+    const currentCartObj = await this.getCart();
+    currentCartObj?.data?.splice(index, 1);
     return this.set(STORAGE_CART, currentCartObj);
+  }
+
+  public async updateCartItem(index: number, newCartItem: CartItem) {
+    const currentCartObj = await this.getCart();
+    currentCartObj.data[index] = newCartItem;
+    return this.set(STORAGE_CART, currentCartObj);
+  }
+
+  // private func
+  private async set(key: string, value: any) {
+    console.log('value=========');
+    console.log(value);
+    const jsonValue = JSON.stringify(value);
+    await this.localStorage?.set(key, jsonValue);
+  }
+
+  private async get(key: string) {
+    const valueJson = await this.localStorage?.get(key);
+    if (valueJson) {
+      return JSON.parse(valueJson);
+    }
+    return null;
   }
 }

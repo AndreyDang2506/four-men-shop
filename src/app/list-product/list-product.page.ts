@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseListResponse } from '../api/interface';
+import { BaseListResponse, Cart } from '../api/interface';
 import { Product, ProductService } from '../api/product.service';
 import { StorageService } from '../services/storage.service';
 
@@ -10,18 +10,25 @@ import { StorageService } from '../services/storage.service';
 })
 export class ListProductPage implements OnInit {
   products: Product[];
+  isShowCart: boolean;
 
   constructor(private data: ProductService, private storage: StorageService) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     // Load the data
     this.data.getProducts().subscribe((data: BaseListResponse<Product>) => {
-      console.log(data.data);
       // Set the data to display in the template
       this.products = data.data;
     });
+
+    const cart = await this.storage.getCart();
+    if (cart.data.length) {
+      this.isShowCart = true;
+    } else {
+      this.isShowCart = false;
+    }
   }
 
   // getProducts(): Promise<Product[]> {
@@ -29,8 +36,8 @@ export class ListProductPage implements OnInit {
   // }
   async clickedCart() {
     console.log('da click');
-    const name = await this.storage.getCart()
-    console.log('load ra')
-    console.log( name)
+    const cart = await this.storage.getCart();
+    console.log('load ra');
+    console.log(cart);
   }
 }
