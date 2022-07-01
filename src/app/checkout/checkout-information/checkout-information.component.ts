@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Cart } from 'src/app/api/interface';
 import { StorageService } from 'src/app/services/storage.service';
+import province from '../../address/tinh_tp.json';
 
 @Component({
   selector: 'app-checkout-information',
@@ -9,7 +10,11 @@ import { StorageService } from 'src/app/services/storage.service';
 })
 export class CheckoutInformationComponent implements OnInit {
   @Input() cartInformation: Cart;
-  
+
+  province: any;
+  district: any;
+  wards: any;
+
   fullname?: string;
   phone?: string;
   address?: string;
@@ -19,6 +24,7 @@ export class CheckoutInformationComponent implements OnInit {
   constructor(private storage: StorageService) { }
 
   ngOnInit() {
+    this.province = province;
     this.fullname = this.cartInformation.fullname;
     this.phone = this.cartInformation.phone;
     this.address = this.cartInformation.address;
