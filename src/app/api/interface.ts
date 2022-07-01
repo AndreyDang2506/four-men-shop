@@ -9,6 +9,8 @@ export interface CartInformation {
   fullname: string;
   phone: string;
   address: string;
+  province: string;
+  district: string;
   height: number;
   weight: number;
 }
@@ -21,6 +23,6 @@ export interface CartItem {
   productName?: string;
 }
 
-export interface Cart extends CartInformation  {
+export interface Cart extends CartInformation {
   data: CartItem[];
 }

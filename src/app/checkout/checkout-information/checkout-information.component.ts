@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Cart } from 'src/app/api/interface';
 import { StorageService } from 'src/app/services/storage.service';
-import province from '../../address/tinh_tp.json';
+import provinceList from '../../address/tinh_tp.json';
+import districtList from '../../address/quan_huyen.json';
 
 @Component({
   selector: 'app-checkout-information',
@@ -9,54 +10,89 @@ import province from '../../address/tinh_tp.json';
   styleUrls: ['./checkout-information.component.scss'],
 })
 export class CheckoutInformationComponent implements OnInit {
-  @Input() cartInformation: Cart;
+  cartInformation: Cart;
 
-  province: any;
-  district: any;
-  wards: any;
+  objectKeys = Object.keys;
+  provinces: any;
+  districts: any = {};
 
-  fullname?: string;
-  phone?: string;
-  address?: string;
-  height?: number;
-  weight?: number;
+  // fullname?: string;
+  // phone?: string;
+  // provinceSelected?: string;
+  // districtSelected?: string;
+  // addressInputed?: string;
+  // height?: number;
+  // weight?: number;
 
-  constructor(private storage: StorageService) { }
+  constructor(private storage: StorageService) {}
 
-  ngOnInit() {
-    this.province = province;
-    this.fullname = this.cartInformation.fullname;
-    this.phone = this.cartInformation.phone;
-    this.address = this.cartInformation.address;
-    this.height = this.cartInformation.height;
-    this.weight = this.cartInformation.weight;
+  async ngOnInit() {
+    this.cartInformation = await this.storage.getCart();
+
+    console.log(this.cartInformation);
+    this.provinces = provinceList;
+    this.handleChangeProvince(this.cartInformation.province);
+
+    // this.fullname = this.cartInformation.fullname;
+    // this.phone = this.cartInformation.phone;
+    // this.addressInputed = this.cartInformation.address;
+    // this.height = this.cartInformation.height;
+    // this.weight = this.cartInformation.weight;
+  }
+
+  handleChangeProvince(provinceCode) {
+    const newDistricts: any = {};
+    for (const code of Object.keys(districtList)) {
+      if (districtList?.[code]?.parent_code === provinceCode) {
+        newDistricts[code] = districtList[code];
+      }
+    }
+    this.districts = { ...newDistricts };
+    if (!newDistricts?.[this.cartInformation.district]) {
+      this.cartInformation.district = null;
+    }
+    this.cartInformation.province = provinceCode;
+    return this.saveCartInformation();
+  }
+
+  handleChangeDistrict(districtCode) {
+    this.cartInformation.district = districtCode;
+    return this.saveCartInformation();
+  }
+
+  handleChangeAddress($event) {
+    this.cartInformation.address = $event;
+    return this.saveCartInformation();
+  }
+
+  saveAddress() {
+    // const result = `${this.address}, ${this.districtSelected}, ${this.provinceSelected}`;
+    // this.cartInformation.address = result;
   }
 
   handleChangeFullname(ev) {
     this.cartInformation.fullname = ev.target.value;
-    this.saveCartInformation();
+    return this.saveCartInformation();
   }
 
   handleChangePhone(ev) {
-    this.phone = ev.target.value;
     this.cartInformation.phone = ev.target.value;
-    this.saveCartInformation();
+    return this.saveCartInformation();
   }
 
   handleChangeHeight(ev) {
-    this.height = ev.target.value;
     this.cartInformation.height = ev.target.value;
-    this.saveCartInformation();
-
+    return this.saveCartInformation();
   }
 
   handleChangeWeight(ev) {
-    this.weight = ev.target.value;
     this.cartInformation.weight = ev.target.value;
-    this.saveCartInformation();
+    return this.saveCartInformation();
   }
-  
-  saveCartInformation() {
-    this.storage.updateCartInformation(this.cartInformation);
+
+  async saveCartInformation() {
+    console.log('this.cartInformation====================');
+    console.log(this.cartInformation);
+    return this.storage.updateCartInformation(this.cartInformation);
   }
 }

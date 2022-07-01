@@ -56,14 +56,16 @@ export class StorageService {
     return this.set(STORAGE_CART, currentCartObj);
   }
 
-  public async updateCartInformation(information: CartInformation) {
+  public async updateCartInformation(information: Cart) {
     const currentCartObj = await this.getCart();
-    currentCartObj.fullName = information.fullname || '';
-    currentCartObj.phone = information.phone || '';
-    currentCartObj.address = information.address || '';
-    currentCartObj.height = information.height || 0;
-    currentCartObj.weight = information.weight || 0;
-   
+    currentCartObj.fullName = information?.fullname || '';
+    currentCartObj.phone = information?.phone || '';
+    currentCartObj.address = information?.address || '';
+    currentCartObj.district = information?.district || '';
+    currentCartObj.province = information?.province || '';
+    currentCartObj.height = information?.height || 0;
+    currentCartObj.weight = information?.weight || 0;
+
     return this.set(STORAGE_CART, currentCartObj);
   }
 
