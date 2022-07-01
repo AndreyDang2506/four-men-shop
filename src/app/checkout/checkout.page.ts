@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { Cart, CartItem } from '../api/interface';
 import { OrderService } from '../api/order.service';
 import { StorageService } from '../services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -12,7 +14,9 @@ export class CheckoutPage implements OnInit {
   cart: Cart;
   constructor(
     private storage: StorageService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    public alertController: AlertController,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -47,12 +51,25 @@ export class CheckoutPage implements OnInit {
         weight: currentCart.weight,
       },
     };
-
-    console.log('payload=============');
-    console.log(payload);
-
-    return this.orderService.sendOrder(payload).subscribe((data) => {
+    
+    return this.orderService.sendOrder(payload).subscribe(async (data) => {
+      await this.storage.clearCart();
+      await this.checkoutDone();
+  
+      this.router.navigate(['/'])
       console.log(data);
     });
+  }
+    
+  async checkoutDone() {
+    const alert = await this.alertController.create({
+      cssClass: 'checkout-done-class',
+      header: 'Đặt hàng thành công!',
+      message: 'Shop sẽ liên hệ với bạn trong thời gian sớm nhất.',
+      buttons: ['OK']
+    });
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 }

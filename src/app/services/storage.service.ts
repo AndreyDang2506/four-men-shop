@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Storage } from '@ionic/storage-angular';
-import { Cart, CartItem } from '../api/interface';
+import { Cart, CartInformation, CartItem } from '../api/interface';
 import { STORAGE_CART } from '../constants/cart.constant';
 
 @Injectable()
@@ -22,12 +22,12 @@ export class StorageService {
     const cart = await this.get(STORAGE_CART);
     if (cart == null) {
       return {
-        fullName: 'Nguyen Huu Ta',
+        fullName: '',
         data: new Array<CartItem>(),
-        address: '141 Chua Boc, Linh Nam, Hoang Mai, Ha Noi',
-        height: 165,
-        weight: 65,
-        phone: '0989912762',
+        address: '',
+        height: 0,
+        weight: 0,
+        phone: '',
       };
     }
     return cart;
@@ -46,9 +46,24 @@ export class StorageService {
     return this.set(STORAGE_CART, currentCartObj);
   }
 
+  public async clearCart(): Promise<void> {
+    return this.remove(STORAGE_CART);
+  }
+
   public async updateCartItem(index: number, newCartItem: CartItem) {
     const currentCartObj = await this.getCart();
     currentCartObj.data[index] = newCartItem;
+    return this.set(STORAGE_CART, currentCartObj);
+  }
+
+  public async updateCartInformation(information: CartInformation) {
+    const currentCartObj = await this.getCart();
+    currentCartObj.fullName = information.fullname || '';
+    currentCartObj.phone = information.phone || '';
+    currentCartObj.address = information.address || '';
+    currentCartObj.height = information.height || 0;
+    currentCartObj.weight = information.weight || 0;
+   
     return this.set(STORAGE_CART, currentCartObj);
   }
 
@@ -58,6 +73,10 @@ export class StorageService {
     console.log(value);
     const jsonValue = JSON.stringify(value);
     await this.localStorage?.set(key, jsonValue);
+  }
+
+  private async remove(key: string) {
+    await this.localStorage?.remove(key);
   }
 
   private async get(key: string) {

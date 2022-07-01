@@ -1,0 +1,40 @@
+<div *ngIf="cartInformation" class="information">
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Tên</ion-label>
+      <ion-input (ionChange)="handleChangeFullname($event)" [(ngModel)]="cartInformation.fullName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Số điện thoại</ion-label>
+      <ion-input type="number" (ionChange)="handleChangePhone($event)" [(ngModel)]="cartInformation.phone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Chiều cao (cm)</ion-label>
+      <ion-input type="number" (ionChange)="handleChangeHeight($event)" [(ngModel)]="cartInformation.height"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Cân nặng (kg)</ion-label>
+      <ion-input type="number" (ionChange)="handleChangeWeight($event)" [(ngModel)]="cartInformation.weight"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">tỉnh/thành phố</ion-label>
+      <ion-select placeholder="Chọn tỉnh/thành phố">
+        <ion-select-option value="apples">Hà Nội</ion-select-option>
+        <ion-select-option value="oranges">Sài Gòn</ion-select-option>
+        <ion-select-option value="bananas">Đà Nẵng</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">quận/huyện</ion-label>
+      <ion-select placeholder="Chọn quận/huyện">
+        <ion-select-option value="apples">Hoàng Mai</ion-select-option>
+        <ion-select-option value="oranges">Cầu Giấy</ion-select-option>
+        <ion-select-option value="bananas">Thanh Xuân</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Địa chỉ</ion-label>
+      <ion-textarea value=""> </ion-textarea>
+    </ion-item>
+  </ion-list>
+</div>

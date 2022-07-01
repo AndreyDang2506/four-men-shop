@@ -5,14 +5,12 @@ export interface BaseListResponse<T> {
   error: any;
   isSuccess: boolean;
 }
-
-export interface Cart {
-  fullName: string;
-  data: CartItem[];
+export interface CartInformation {
+  fullname: string;
+  phone: string;
   address: string;
   height: number;
   weight: number;
-  phone: string;
 }
 
 export interface CartItem {
@@ -21,4 +19,8 @@ export interface CartItem {
   color?: string;
   size?: string;
   productName?: string;
+}
+
+export interface Cart extends CartInformation  {
+  data: CartItem[];
 }

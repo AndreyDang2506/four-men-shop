@@ -23,12 +23,12 @@ export class ListProductPage implements OnInit {
       this.products = data.data;
     });
 
-    const cart = await this.storage.getCart();
-    if (cart.data.length) {
-      this.isShowCart = true;
-    } else {
-      this.isShowCart = false;
-    }
+    // const cart = await this.storage.getCart();
+    // if (cart.data.length) {
+    //   this.isShowCart = true;
+    // } else {
+    //   this.isShowCart = false;
+    // }
   }
 
   // getProducts(): Promise<Product[]> {

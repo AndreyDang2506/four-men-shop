@@ -18,35 +18,8 @@
     ></app-checkout-item>
   </div>
 
-  <div class="address">
-    <ion-list>
-      <ion-item>
-        <ion-label position="stacked">Số điện thoại</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">tỉnh/thành phố</ion-label>
-        <ion-select placeholder="Chọn tỉnh/thành phố">
-          <ion-select-option value="apples">Hà Nội</ion-select-option>
-          <ion-select-option value="oranges">Sài Gòn</ion-select-option>
-          <ion-select-option value="bananas">Đà Nẵng</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">quận/huyện</ion-label>
-        <ion-select placeholder="Chọn quận/huyện">
-          <ion-select-option value="apples">Hoàng Mai</ion-select-option>
-          <ion-select-option value="oranges">Cầu Giấy</ion-select-option>
-          <ion-select-option value="bananas">Thanh Xuân</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Địa chỉ</ion-label>
-        <ion-textarea value=""> </ion-textarea>
-      </ion-item>
-    </ion-list>
-  </div>
-  <hr />
+  <app-checkout-information *ngIf="cart" [cartInformation]="cart">
+  </app-checkout-information>
 </ion-content>
 <ion-footer translucent="true" class="ion-no-border" mode="md">
   <ion-toolbar color="translucent">
